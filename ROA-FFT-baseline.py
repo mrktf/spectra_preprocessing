@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import glob
 import os
 
-def process_file(input_file_path: str, show_plot: bool) -> None:
+def process_file(input_file_path: str, minimum: int, maximum: int, final_dec_separator: str, show_plot: bool) -> None:
     # replacement of decimal separator in original file
     search_text = ","
     replace_text = "."
@@ -212,10 +212,10 @@ if iterate == "Y" or iterate == "y":
     for filename in filelist:
         # replacement of decimal separator in original file
         iterated_path = f"{input_path}{filename}"
-        process_file(iterated_path, False)
+        process_file(iterated_path, minimum, maximum, final_dec_separator, show_plot = False)
 elif iterate == "N" or iterate == "n":
     # SINGLE FILE PREPROCESSING
-    process_file(input_path, True)
+    process_file(input_path, minimum, maximum, final_dec_separator, show_plot = True)
 else:
     print(f"Input error, try again.\n")
 time.sleep(1)

@@ -101,10 +101,6 @@ def process_file(input_file_path: str, minimum: int, maximum: int, final_dec_sep
             file.write(data)
         file.close()
 
-    print(
-        f"{len(filelist)} spectra were successfully preprocessed and exported as semicolon separated ASCII txt files."
-    ) 
-
 type_of_input = str(
     input(
         "Do you want to input parameters as a list, or separately? Select L/S:\n"
@@ -116,7 +112,7 @@ if type_of_input == "L" or type_of_input == "l":
 
     user_input = [
         item for item in input(
-            f"Select the directory and parameters for spectra preprocessing separated by spaces:\n(directory or file path, preprocess complete directory?, minimum of x axis, maximum of x axis, x data step, export decimal separator.\n\n INPUT EXAMPLE: 'C:/Users/Me/MySpectra/ Y 500 2000 1 , Y 30/11/2021'\n\ndirectory or file path\t-\tSelect a .asc file (i.e. C:/Users/Me/MySpectra/spectrum1.asc) or a directory (i.e. C:/Users/Me/MySpectra/) to preprocess for data analysis.\npreprocess complete directory?\t-\tDo you want to convert all files in the selected directory? Y/N\nminimum of x axis\t-\tSelect the parameters for spectra truncation and interpolation - minimum of x axis (i.e. 500).\nmaximum of x axis\t-\tSelect the parameters for spectra truncation and interpolation - maximum of x axis (i.e. 2000).\nx data step\t-\tSelect the parameters for spectra truncation and interpolation - data step of x axis (i.e. 0.2 or 1).\nexport decimal separator\t-\tSelect the final decimal separator (, or .) for exported data (for Unscrambler comma is recommended).\n"
+            f"Select the directory and parameters for spectra preprocessing separated by spaces:\n(directory or file path, preprocess complete directory?, minimum of x axis, maximum of x axis, x data step, export decimal separator.\n\n INPUT EXAMPLE: 'C:/Users/Me/MySpectra/ Y 500 2000 1 , Y 30/11/2021'\n\ndirectory or file path\t-\tSelect a .txt file (i.e. C:/Users/Me/MySpectra/spectrum1.txt) or a directory (i.e. C:/Users/Me/MySpectra/) to preprocess for data analysis.\npreprocess complete directory?\t-\tDo you want to convert all files in the selected directory? Y/N\nminimum of x axis\t-\tSelect the parameters for spectra truncation and interpolation - minimum of x axis (i.e. 500).\nmaximum of x axis\t-\tSelect the parameters for spectra truncation and interpolation - maximum of x axis (i.e. 2000).\nx data step\t-\tSelect the parameters for spectra truncation and interpolation - data step of x axis (i.e. 0.2 or 1).\nexport decimal separator\t-\tSelect the final decimal separator (, or .) for exported data (for Unscrambler comma is recommended).\n"
         ).split()
     ]
 
@@ -149,7 +145,7 @@ else:
     # DIRECTORY
     input_path = str(
         input(
-            "Select a .asc file (i.e. C:/Users/Me/MySpectra/spectrum1.asc) or a directory (i.e. C:/Users/Me/MySpectra/) to preprocess for data analysis:\n"
+            "Select a .txt file (i.e. C:/Users/Me/MySpectra/spectrum1.txt) or a directory (i.e. C:/Users/Me/MySpectra/) to preprocess for data analysis:\n"
         ))
 
     iterate = str(
@@ -189,7 +185,7 @@ else:
                 "Select suitable data step of x axis (i.e. 0.5, 1, 2 or 4):\n")
         )
     no_x_points = int((maximum - minimum) / step + 1)
-    print(f"Number of datapoints will be {no_x_points}.\n")
+    print(f"\n\nNumber of datapoints will be {no_x_points}.\n")
 
     # SELECTION OF DECIMAL SEPARATOR OF EXPORTED FILES
     final_dec_separator = str(
@@ -207,12 +203,14 @@ if iterate == "Y" or iterate == "y":
         # creation of list of filenames in the directory
         filename = os.path.basename(file)
         filelist.append(filename)
-    print(filelist)
     # loop for all files in the directory
     for filename in filelist:
         # replacement of decimal separator in original file
         iterated_path = f"{input_path}{filename}"
         process_file(iterated_path, minimum, maximum, final_dec_separator, show_plot = False)
+    print(
+        f"{len(filelist)} spectra were successfully preprocessed and exported as semicolon separated ASCII txt files."
+    ) 
 elif iterate == "N" or iterate == "n":
     # SINGLE FILE PREPROCESSING
     process_file(input_path, minimum, maximum, final_dec_separator, show_plot = True)
